@@ -1,38 +1,51 @@
 const Author = require('../../models/Author')
 
-
+// mutation method for adding a new author
 const addAuthor = async (_obj, args, context) => {
 
   try {
-    console.log(args)
-    console.log("EXITING")
     const author = await Author.query().insert({
-      args,
+      firstName: args.input.firstName,
+      lastName: args.input.lastName,
+      age: args.input.age,
+      email: args.input.email,
+      numBooksPublished: args.input.numBooksPublished,
+      addressId: args.input.addressId,
 
     })
     return author
   } catch (err) {
     console.log(err)
-    throw new Error('Failed to INSERT author')
+    throw new Error('Failed to INSERT new author')
+  }
+}
+
+// mutation method to update an author object
+const updateAuthor = async (_obj, args, context) => {
+
+  try {
+
+    const findAuthor = await Author.query().findOne('id', args.id)
+
+    const changedAuthor = findAuthor.$query().patch({
+      firstName: args.input.firstName,
+      lastName: args.input.lastName,
+      age: args.input.age,
+      email: args.input.email,
+    })
+
+    return changedAuthor
+  } catch (err) {
+    console.log(err)
+    throw new Error('Failed to CHANGE author')
   }
 }
 
 
-// const books = async ({id}, params, context) => {
-//     const b = await Book.query().where('authorId', id)
-//     return b
-
-// }
-
-// const address = async ({addresId}, params, context) => {
-//     const a = await Address.query().findOne('id', addressId)
-//     return a
-
-// }
-
 const resolver = {
   Mutation: {
     addAuthor,
+    updateAuthor,
   },
 
 }

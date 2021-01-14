@@ -1,8 +1,6 @@
 const Author = require('../../models/Author')
-const Book = require('../../models/Book')
-const Address = require('../../models/Address')
 
-
+// query to display all Authors
 const allAuthors = async () => {
   try {
     const authors = await Author.query()
@@ -13,6 +11,7 @@ const allAuthors = async () => {
   }
 }
 
+// query to select a specific authorById
 const authorById = async (_obj, {id}, context) => {
   try {
     const author = await Author.query().findOne('id', id)
@@ -22,19 +21,6 @@ const authorById = async (_obj, {id}, context) => {
     throw new Error('Failed to get author by id')
   }
 }
-
-
-// const books = async ({id}, params, context) => {
-//     const b = await Book.query().where('authorId', id)
-//     return b
-
-// }
-
-// const address = async ({addresId}, params, context) => {
-//     const a = await Address.query().findOne('id', addressId)
-//     return a
-
-// }
 
 const resolver = {
   Query: {

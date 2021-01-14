@@ -5,11 +5,19 @@ module.exports = gql`
   type Query {
     welcome: String!
     authorById(id:ID!):Author!
-    bookById: Book!
-    publisherById: Publisher!
     allAuthors: [Author!]!
+
+    bookById(id:ID!): Book!
+    bestsellerBooks: [Book!]!
+    recentBooks(n:Int!): [Book!]!
+
+    publisherById(id:ID!): Publisher!
+    # publisherInState(state:String!):[Publisher!]!
+    
+
   }
   type Mutation{
+    # finished author mutations
     addAuthor(input: addAuthorInput): Author!
     updateAuthor(id: ID!, input: editAuthorInput):Author!
 
@@ -17,7 +25,10 @@ module.exports = gql`
     updateBook(id: ID!, input: editBookInput):Book!
 
     addPublisher(input: addPublisherInput): Publisher!
-    updatePublisher(input: editPublisherInput): Publisher!
+    updatePublisher(id: ID!, input: editPublisherInput): Publisher!
+
+    addAddress(input: addAddressInput): Address!
+    updateAddress(id: ID!, input: editAddressInput): Address!
   }
   type Book{
     id: ID!
@@ -32,11 +43,11 @@ module.exports = gql`
   }
   input addBookInput{
     
-    title: String!
-    language: String! 
-    numPages: Int!
-    datePublished: Date! 
-    bestseller: Boolean!
+    title: String
+    language: String
+    numPages: Int
+    datePublished: Date
+    bestseller: Boolean
     authorId: ID!
     publisherId:ID!
   }
@@ -65,15 +76,15 @@ module.exports = gql`
   input addAuthorInput{
     firstName: String!
     lastName: String!
-    age: Int
-    email: String
+    age: Int!
+    email: String!
     numBooksPublished: Int
     addressId: ID
 
   }  
   input editAuthorInput{
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     age: Int
     email: String
     numBooksPublished: Int
@@ -103,6 +114,28 @@ module.exports = gql`
     addressId: ID
   }
 
+  # address info
+  type Address{
+    id: ID!
+    street: String!
+    city: String!
+    state: String!
+    zip: Int!
+
+  }
+  input addAddressInput{
+    street: String!
+    city: String!
+    state: String!
+    zip: Int!
+
+  }
+  input editAddressInput{
+    street: String
+    city: String
+    state: String
+    zip: Int
+  }
   scalar Date
 
 `
