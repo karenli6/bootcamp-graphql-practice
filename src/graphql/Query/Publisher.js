@@ -1,4 +1,5 @@
 const Publisher = require('../../models/Publisher')
+const Book = require('../../models/Book')
 
 // query to select a specific publisherById
 const publisherById = async (_obj, {id}, context) => {
@@ -11,21 +12,22 @@ const publisherById = async (_obj, {id}, context) => {
   }
 }
 
-// // query to list publishers in the same state
-// const publisherInState = async (_obj, {state}, context) => {
-//   try {
-//     const firstN = await Book.query().orderBy('datePublished','desc').limit(n)
-//     return firstN
-//   } catch (err) {
-//     console.log(err)
-//     throw new Error('Failed to get most recent books')
-//   }
-// }
+// query to select a specific publisherById
+const getPublisherBooks = async (_obj, {id}, context) => {
+  try {
+    const bookList = await Book.query().where('publisherId', id)
+    return bookList
+  } catch (err) {
+    console.log(err)
+    throw new Error('Failed to get publisher by id')
+  }
+}
 
   
 const resolver = {
   Query: {
     publisherById,
+    getPublisherBooks,
   },
 
 }

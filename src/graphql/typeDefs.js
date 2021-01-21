@@ -6,15 +6,18 @@ module.exports = gql`
     welcome: String!
     authorById(id:ID!):Author!
     allAuthors: [Author!]!
+    getAuthorBooks (id: ID!): [Book!]!
 
     bookById(id:ID!): Book!
     bestsellerBooks: [Book!]!
     recentBooks(n:Int!): [Book!]!
 
     publisherById(id:ID!): Publisher!
+    getPublisherBooks (id: ID!): [Book!]!
+
     # publisherInState(state:String!):[Publisher!]!
     
-
+ 
   }
   type Mutation{
     # finished author mutations
@@ -64,13 +67,14 @@ module.exports = gql`
 
   #  author info
   type Author{
-    id: ID!
+    id: ID! 
     firstName: String!
     lastName: String!
     age: Int!
     email: String!
     numBooksPublished: Int!
     addressId: ID!
+
 
   }
   input addAuthorInput{
